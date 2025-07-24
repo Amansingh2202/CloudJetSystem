@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "aman@123",
+    "database": "REMINDER_DB_DEV",
+    "host": "mysql",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "aman@123",
+    "database": "database_test",
+    "host": "mysql",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "aman@123",
+    "database": "database_production",
+    "host": "mysql",
+    "dialect": "mysql"
+  }
+}

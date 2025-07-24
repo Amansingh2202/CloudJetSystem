@@ -1,0 +1,7 @@
+node_modules/
+
+.env
+
+PORT=3002
+
+src/config/config.json

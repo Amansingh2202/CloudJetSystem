@@ -1,6 +1,7 @@
 const express=require('express')
 const morgan=require('morgan')
 const  app=express()
+const axios=require('axios')
 
 const {createProxyMiddleware}= require('http-proxy-middleware')
 
@@ -17,7 +18,7 @@ app.use(morgan('combined'))
 
 app.use(limiter);
 
-app.use('/bookingservice',async (req,resizeBy,next)=>{
+app.use('/bookingservice',async (req,res,next)=>{
        try{
         const response=await axios.get('http://localhost:3001/api/v1/isauthenticated',{
             headers:{

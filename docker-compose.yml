@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: aman@123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  auth-service:
+    build: ./AuthService
+    container_name: auth-service
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./AuthService/.env
+    depends_on:
+      - mysql
+
+  flight-service:
+    build: ./Flight-and-Search
+    container_name: flight-service
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./Flight-and-Search/.env
+    depends_on:
+      - mysql
+
+  booking-service:
+    build: ./BookingService
+    container_name: booking-service
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./BookingService/.env
+    depends_on:
+      - mysql
+      - rabbitmq
+
+  reminder-service:
+    build: ./ReminderService
+    container_name: reminder-service
+    ports:
+      - "3003:3003"
+    env_file:
+      - ./ReminderService/.env
+    depends_on:
+      - rabbitmq
+
+  api-gateway:
+    build: ./API_Gateway
+    container_name: api-gateway
+    ports:
+      - "3004:3004"
+    env_file:
+      - ./API_Gateway/.env
+    depends_on:
+      - auth-service
+      - booking-service
+      - flight-service
+      - reminder-service
+
+volumes:
+  mysql_data:
